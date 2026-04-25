@@ -9,38 +9,175 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as SejaPrestadorRouteImport } from './routes/seja-prestador'
+import { Route as EntrarRouteImport } from './routes/entrar'
+import { Route as DashboardRouteImport } from './routes/dashboard'
+import { Route as ComoFuncionaRouteImport } from './routes/como-funciona'
+import { Route as CadastroRouteImport } from './routes/cadastro'
+import { Route as BuscarRouteImport } from './routes/buscar'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as PrestadorIdRouteImport } from './routes/prestador.$id'
 
+const SejaPrestadorRoute = SejaPrestadorRouteImport.update({
+  id: '/seja-prestador',
+  path: '/seja-prestador',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const EntrarRoute = EntrarRouteImport.update({
+  id: '/entrar',
+  path: '/entrar',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DashboardRoute = DashboardRouteImport.update({
+  id: '/dashboard',
+  path: '/dashboard',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ComoFuncionaRoute = ComoFuncionaRouteImport.update({
+  id: '/como-funciona',
+  path: '/como-funciona',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CadastroRoute = CadastroRouteImport.update({
+  id: '/cadastro',
+  path: '/cadastro',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const BuscarRoute = BuscarRouteImport.update({
+  id: '/buscar',
+  path: '/buscar',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PrestadorIdRoute = PrestadorIdRouteImport.update({
+  id: '/prestador/$id',
+  path: '/prestador/$id',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/buscar': typeof BuscarRoute
+  '/cadastro': typeof CadastroRoute
+  '/como-funciona': typeof ComoFuncionaRoute
+  '/dashboard': typeof DashboardRoute
+  '/entrar': typeof EntrarRoute
+  '/seja-prestador': typeof SejaPrestadorRoute
+  '/prestador/$id': typeof PrestadorIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/buscar': typeof BuscarRoute
+  '/cadastro': typeof CadastroRoute
+  '/como-funciona': typeof ComoFuncionaRoute
+  '/dashboard': typeof DashboardRoute
+  '/entrar': typeof EntrarRoute
+  '/seja-prestador': typeof SejaPrestadorRoute
+  '/prestador/$id': typeof PrestadorIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/buscar': typeof BuscarRoute
+  '/cadastro': typeof CadastroRoute
+  '/como-funciona': typeof ComoFuncionaRoute
+  '/dashboard': typeof DashboardRoute
+  '/entrar': typeof EntrarRoute
+  '/seja-prestador': typeof SejaPrestadorRoute
+  '/prestador/$id': typeof PrestadorIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/buscar'
+    | '/cadastro'
+    | '/como-funciona'
+    | '/dashboard'
+    | '/entrar'
+    | '/seja-prestador'
+    | '/prestador/$id'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/buscar'
+    | '/cadastro'
+    | '/como-funciona'
+    | '/dashboard'
+    | '/entrar'
+    | '/seja-prestador'
+    | '/prestador/$id'
+  id:
+    | '__root__'
+    | '/'
+    | '/buscar'
+    | '/cadastro'
+    | '/como-funciona'
+    | '/dashboard'
+    | '/entrar'
+    | '/seja-prestador'
+    | '/prestador/$id'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  BuscarRoute: typeof BuscarRoute
+  CadastroRoute: typeof CadastroRoute
+  ComoFuncionaRoute: typeof ComoFuncionaRoute
+  DashboardRoute: typeof DashboardRoute
+  EntrarRoute: typeof EntrarRoute
+  SejaPrestadorRoute: typeof SejaPrestadorRoute
+  PrestadorIdRoute: typeof PrestadorIdRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/seja-prestador': {
+      id: '/seja-prestador'
+      path: '/seja-prestador'
+      fullPath: '/seja-prestador'
+      preLoaderRoute: typeof SejaPrestadorRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/entrar': {
+      id: '/entrar'
+      path: '/entrar'
+      fullPath: '/entrar'
+      preLoaderRoute: typeof EntrarRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/dashboard': {
+      id: '/dashboard'
+      path: '/dashboard'
+      fullPath: '/dashboard'
+      preLoaderRoute: typeof DashboardRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/como-funciona': {
+      id: '/como-funciona'
+      path: '/como-funciona'
+      fullPath: '/como-funciona'
+      preLoaderRoute: typeof ComoFuncionaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/cadastro': {
+      id: '/cadastro'
+      path: '/cadastro'
+      fullPath: '/cadastro'
+      preLoaderRoute: typeof CadastroRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/buscar': {
+      id: '/buscar'
+      path: '/buscar'
+      fullPath: '/buscar'
+      preLoaderRoute: typeof BuscarRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -48,11 +185,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/prestador/$id': {
+      id: '/prestador/$id'
+      path: '/prestador/$id'
+      fullPath: '/prestador/$id'
+      preLoaderRoute: typeof PrestadorIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  BuscarRoute: BuscarRoute,
+  CadastroRoute: CadastroRoute,
+  ComoFuncionaRoute: ComoFuncionaRoute,
+  DashboardRoute: DashboardRoute,
+  EntrarRoute: EntrarRoute,
+  SejaPrestadorRoute: SejaPrestadorRoute,
+  PrestadorIdRoute: PrestadorIdRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
