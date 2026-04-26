@@ -35,8 +35,8 @@ jobs:
 
       - name: Clean install (fix rolldown bug)
         run: |
-            rm -rf node_modules package-lock.json
-            npm install
+          rm -rf node_modules package-lock.json
+          npm install
 
       - name: Build project
         run: npm run build
@@ -47,7 +47,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: './dist'
+          path: "./dist"
 
       - name: Deploy to GitHub Pages
         id: deployment

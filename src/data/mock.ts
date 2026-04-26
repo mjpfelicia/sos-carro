@@ -33,6 +33,46 @@ export type Provider = {
   bio: string;
 };
 
+export type Testimonial = {
+  id: string;
+  author: string;
+  role: string;
+  avatar: string;
+  rating: number;
+  comment: string;
+  location: string;
+};
+
+export const testimonials: Testimonial[] = [
+  {
+    id: "t1",
+    author: "Ana Paula Souza",
+    role: "Cliente",
+    avatar: "https://api.dicebear.com/7.x/initials/svg?seed=Ana%20Souza&backgroundColor=e67e22",
+    rating: 5,
+    comment: "Meu carro quebrou no meio da estrada e em menos de 30 minutos o mecânico chegou. Serviço impecável!",
+    location: "São Paulo, SP",
+  },
+  {
+    id: "t2",
+    author: "Carlos Eduardo Mendes",
+    role: "Cliente",
+    avatar: "https://api.dicebear.com/7.x/initials/svg?seed=Carlos%20Mendes&backgroundColor=3498db",
+    rating: 5,
+    comment: "Praticidade e preço justo. O prestador foi super atencioso e resolveu o problema na hora.",
+    location: "Curitiba, PR",
+  },
+  {
+    id: "t3",
+    author: "Roberto Almeida",
+    role: "Prestador - Mecânica Silva",
+    avatar: "https://api.dicebear.com/7.x/initials/svg?seed=Roberto%20Almeida&backgroundColor=27ae60",
+    rating: 5,
+    comment: "A plataforma me trouxe muitos clientes novos. É fácil de usar e o suporte é excelente.",
+    location: "Rio de Janeiro, RJ",
+  },
+];
+
 export const providers: Provider[] = [
   {
     id: "1",

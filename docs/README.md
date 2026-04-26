@@ -5,9 +5,11 @@ Este diretório contém toda a documentação técnica e de planejamento do proj
 ## 📄 Documentos Disponíveis
 
 ### 1. [DECISOES_ARQUITETURAIS.md](./DECISOES_ARQUITETURAIS.md)
+
 **Propósito**: Registrar todas as decisões técnicas e arquiteturais do projeto
 
 **Conteúdo**:
+
 - Stack tecnológico (React 19, TanStack Router, TailwindCSS v4, Supabase)
 - Justificativa da escolha do Supabase
 - Arquitetura de dados e entidades principais
@@ -20,9 +22,11 @@ Este diretório contém toda a documentação técnica e de planejamento do proj
 ---
 
 ### 2. [SUPABASE_SCHEMA.sql](./SUPABASE_SCHEMA.sql)
+
 **Propósito**: Schema completo do banco de dados PostgreSQL para Supabase
 
 **Conteúdo**:
+
 - 8 tabelas principais (profiles, providers, services, bookings, reviews, etc.)
 - Enums e tipos customizados
 - Triggers e funções automáticas
@@ -31,6 +35,7 @@ Este diretório contém toda a documentação técnica e de planejamento do proj
 - Índices para performance
 
 **Como usar**:
+
 ```sql
 -- Copiar todo o conteúdo e executar no SQL Editor do Supabase
 -- Ou via CLI:
@@ -40,9 +45,11 @@ psql -h db.xxx.supabase.co -U postgres -d postgres -f SUPABASE_SCHEMA.sql
 ---
 
 ### 3. [SDD_ESPECIFICACOES.md](./SDD_ESPECIFICACOES.md)
+
 **Propósito**: Especificações detalhadas de cada Requisito Funcional usando Spec-Driven Development
 
 **Conteúdo por RF**:
+
 - Descrição da funcionalidade
 - Critérios de aceite (checklist)
 - Casos de teste (formato Gherkin)
@@ -52,6 +59,7 @@ psql -h db.xxx.supabase.co -U postgres -d postgres -f SUPABASE_SCHEMA.sql
 - Métricas de sucesso
 
 **RFs Cobertos**:
+
 - RF01: Página Inicial
 - RF02: Buscar Prestadores
 - RF03: Perfil do Prestador
@@ -66,9 +74,11 @@ psql -h db.xxx.supabase.co -U postgres -d postgres -f SUPABASE_SCHEMA.sql
 ---
 
 ### 4. [PLANO_IMPLEMENTACAO_SUPABASE.md](./PLANO_IMPLEMENTACAO_SUPABASE.md)
+
 **Propósito**: Guia passo-a-passo para implementação do Supabase
 
 **Estrutura em 6 Fases**:
+
 - **Fase 0**: Configuração inicial (0.5 dia)
 - **Fase 1**: Banco de dados (1.5 dias)
 - **Fase 2**: Autenticação (1 dia)
@@ -78,6 +88,7 @@ psql -h db.xxx.supabase.co -U postgres -d postgres -f SUPABASE_SCHEMA.sql
 - **Fase 6**: Testes (1 dia)
 
 **Inclui**:
+
 - Comandos exatos para executar
 - Snippets de código prontos
 - Checklists de validação
@@ -88,9 +99,11 @@ psql -h db.xxx.supabase.co -U postgres -d postgres -f SUPABASE_SCHEMA.sql
 ---
 
 ### 5. [TAREFAS_GITHUB_SUMMARY.md](./TAREFAS_GITHUB_SUMMARY.md)
+
 **Propósito**: Lista resumida de tarefas para importar no GitHub Projects
 
 **Conteúdo**:
+
 - 56 tarefas divididas por RF
 - Estimativa de horas por tarefa
 - Priorização (Crítica, Alta, Média, Baixa)
@@ -98,6 +111,7 @@ psql -h db.xxx.supabase.co -U postgres -d postgres -f SUPABASE_SCHEMA.sql
 - Instruções de importação
 
 **Como usar**:
+
 1. Acesse https://github.com/users/mjpfelicia/projects/5
 2. Click em "Add item"
 3. Copie título e descrição de cada tarefa
@@ -107,6 +121,7 @@ psql -h db.xxx.supabase.co -U postgres -d postgres -f SUPABASE_SCHEMA.sql
 ## 🗺️ Fluxo de Trabalho Recomendado
 
 ### Para Novos Desenvolvedores
+
 1. Leia `DECISOES_ARQUITETURAIS.md` para entender o contexto
 2. Execute `SUPABASE_SCHEMA.sql` no Supabase
 3. Siga `PLANO_IMPLEMENTACAO_SUPABASE.md` fase por fase
@@ -114,6 +129,7 @@ psql -h db.xxx.supabase.co -U postgres -d postgres -f SUPABASE_SCHEMA.sql
 5. Crie as tarefas no GitHub Projects usando `TAREFAS_GITHUB_SUMMARY.md`
 
 ### Para Implementar uma Feature
+
 1. Identifique o RF em `SDD_ESPECIFICACOES.md`
 2. Revise critérios de aceite
 3. Verifique schema relacionado em `SUPABASE_SCHEMA.sql`
@@ -121,6 +137,7 @@ psql -h db.xxx.supabase.co -U postgres -d postgres -f SUPABASE_SCHEMA.sql
 5. Crie testes baseados nos casos de teste do SDD
 
 ### Para Revisão de Código
+
 1. Verifique se todos os critérios de aceite foram atendidos
 2. Confirme que testes passam
 3. Valide que RLS está funcionando
@@ -130,13 +147,13 @@ psql -h db.xxx.supabase.co -U postgres -d postgres -f SUPABASE_SCHEMA.sql
 
 ## 📊 Status da Documentação
 
-| Documento | Status | Última Atualização | Versão |
-|-----------|--------|-------------------|--------|
-| DECISOES_ARQUITETURAIS.md | ✅ Completo | 2025-01-XX | 1.0.0 |
-| SUPABASE_SCHEMA.sql | ✅ Completo | 2025-01-XX | 1.0.0 |
-| SDD_ESPECIFICACOES.md | ✅ Completo | 2025-01-XX | 1.0.0 |
-| PLANO_IMPLEMENTACAO_SUPABASE.md | ✅ Completo | 2025-01-XX | 1.0.0 |
-| TAREFAS_GITHUB_SUMMARY.md | ✅ Completo | 2025-01-XX | 1.0.0 |
+| Documento                       | Status      | Última Atualização | Versão |
+| ------------------------------- | ----------- | ------------------ | ------ |
+| DECISOES_ARQUITETURAIS.md       | ✅ Completo | 2025-01-XX         | 1.0.0  |
+| SUPABASE_SCHEMA.sql             | ✅ Completo | 2025-01-XX         | 1.0.0  |
+| SDD_ESPECIFICACOES.md           | ✅ Completo | 2025-01-XX         | 1.0.0  |
+| PLANO_IMPLEMENTACAO_SUPABASE.md | ✅ Completo | 2025-01-XX         | 1.0.0  |
+| TAREFAS_GITHUB_SUMMARY.md       | ✅ Completo | 2025-01-XX         | 1.0.0  |
 
 ---
 
@@ -157,5 +174,5 @@ Consulte a documentação na ordem recomendada ou abra uma issue no repositório
 
 ---
 
-*Documentação mantida pela equipe SOS Carros*
-*Última revisão: 2025-01-XX*
+_Documentação mantida pela equipe SOS Carros_
+_Última revisão: 2025-01-XX_

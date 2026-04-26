@@ -51,11 +51,7 @@ export function Header() {
           </Button>
         </div>
 
-        <button
-          className="md:hidden p-2"
-          onClick={() => setOpen(!open)}
-          aria-label="Menu"
-        >
+        <button className="md:hidden p-2" onClick={() => setOpen(!open)} aria-label="Menu">
           <Menu className="h-6 w-6" />
         </button>
       </div>
@@ -66,10 +62,18 @@ export function Header() {
             <Link to="/buscar" onClick={() => setOpen(false)} className="py-2 text-sm font-medium">
               Buscar serviços
             </Link>
-            <Link to="/seja-prestador" onClick={() => setOpen(false)} className="py-2 text-sm font-medium">
+            <Link
+              to="/seja-prestador"
+              onClick={() => setOpen(false)}
+              className="py-2 text-sm font-medium"
+            >
               Seja prestador
             </Link>
-            <Link to="/como-funciona" onClick={() => setOpen(false)} className="py-2 text-sm font-medium">
+            <Link
+              to="/como-funciona"
+              onClick={() => setOpen(false)}
+              className="py-2 text-sm font-medium"
+            >
               Como funciona
             </Link>
             <div className="flex gap-2 pt-2">

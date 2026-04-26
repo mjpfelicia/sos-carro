@@ -3,9 +3,9 @@ import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { Wrench, Zap, Truck, Disc, Hammer, Square, Key, Sparkles, Search, Shield, Star, Clock, MapPin, ArrowRight } from "lucide-react";
+import { Wrench, Zap, Truck, Disc, Hammer, Square, Key, Sparkles, Search, Shield, Star, Clock, MapPin, ArrowRight, Quote } from "lucide-react";
 import heroImage from "@/assets/hero-sos.jpg";
-import { categories, providers } from "@/data/mock";
+import { categories, providers, testimonials } from "@/data/mock";
 
 const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
   Wrench, Zap, Truck, Disc, Hammer, Square, Key, Sparkles,
@@ -188,6 +188,47 @@ function Index() {
                 </Card>
               </Link>
             ))}
+          </div>
+        </section>
+
+        {/* Depoimentos */}
+        <section className="bg-secondary/40 py-20">
+          <div className="container mx-auto px-4">
+            <div className="text-center mb-12">
+              <h2 className="text-3xl md:text-4xl font-bold mb-3">O que dizem nossos clientes</h2>
+              <p className="text-muted-foreground text-lg">Histórias reais de quem já usou o SOS Carros</p>
+            </div>
+
+            <div className="grid md:grid-cols-3 gap-6 max-w-6xl mx-auto">
+              {testimonials.map((testimonial) => (
+                <Card key={testimonial.id} className="p-6 h-full border-2 hover:border-primary/30 transition-smooth">
+                  <div className="flex items-center gap-1 mb-4">
+                    {[...Array(5)].map((_, i) => (
+                      <Star
+                        key={i}
+                        className={`h-4 w-4 ${i < testimonial.rating ? 'fill-accent text-accent' : 'text-muted-foreground'}`}
+                      />
+                    ))}
+                  </div>
+                  <p className="text-muted-foreground mb-6 italic flex-1">
+                    <Quote className="h-4 w-4 inline mr-1 text-primary/40" />
+                    {testimonial.comment}
+                  </p>
+                  <div className="flex items-center gap-3">
+                    <img
+                      src={testimonial.avatar}
+                      alt={testimonial.author}
+                      className="h-10 w-10 rounded-full bg-secondary"
+                    />
+                    <div>
+                      <p className="font-semibold text-sm">{testimonial.author}</p>
+                      <p className="text-xs text-muted-foreground">{testimonial.role}</p>
+                      <p className="text-xs text-muted-foreground">{testimonial.location}</p>
+                    </div>
+                  </div>
+                </Card>
+              ))}
+            </div>
           </div>
         </section>
 

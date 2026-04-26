@@ -16,26 +16,50 @@ export function Footer() {
               </span>
             </Link>
             <p className="text-sm text-muted-foreground max-w-sm">
-              Conectando motoristas a prestadores de serviços automotivos de confiança,
-              quando e onde você precisar.
+              Conectando motoristas a prestadores de serviços automotivos de confiança, quando e
+              onde você precisar.
             </p>
           </div>
 
           <div>
             <h4 className="font-semibold mb-3 text-sm">Plataforma</h4>
             <ul className="space-y-2 text-sm text-muted-foreground">
-              <li><Link to="/buscar" className="hover:text-foreground transition-smooth">Buscar serviços</Link></li>
-              <li><Link to="/como-funciona" className="hover:text-foreground transition-smooth">Como funciona</Link></li>
-              <li><Link to="/seja-prestador" className="hover:text-foreground transition-smooth">Seja prestador</Link></li>
+              <li>
+                <Link to="/buscar" className="hover:text-foreground transition-smooth">
+                  Buscar serviços
+                </Link>
+              </li>
+              <li>
+                <Link to="/como-funciona" className="hover:text-foreground transition-smooth">
+                  Como funciona
+                </Link>
+              </li>
+              <li>
+                <Link to="/seja-prestador" className="hover:text-foreground transition-smooth">
+                  Seja prestador
+                </Link>
+              </li>
             </ul>
           </div>
 
           <div>
             <h4 className="font-semibold mb-3 text-sm">Suporte</h4>
             <ul className="space-y-2 text-sm text-muted-foreground">
-              <li><a href="#" className="hover:text-foreground transition-smooth">Central de ajuda</a></li>
-              <li><a href="#" className="hover:text-foreground transition-smooth">Termos de uso</a></li>
-              <li><a href="#" className="hover:text-foreground transition-smooth">Privacidade (LGPD)</a></li>
+              <li>
+                <a href="#" className="hover:text-foreground transition-smooth">
+                  Central de ajuda
+                </a>
+              </li>
+              <li>
+                <a href="#" className="hover:text-foreground transition-smooth">
+                  Termos de uso
+                </a>
+              </li>
+              <li>
+                <a href="#" className="hover:text-foreground transition-smooth">
+                  Privacidade (LGPD)
+                </a>
+              </li>
             </ul>
           </div>
         </div>
