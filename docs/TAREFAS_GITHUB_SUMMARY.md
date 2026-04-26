@@ -5,11 +5,13 @@
 Para criar as tarefas no GitHub Project (https://github.com/users/mjpfelicia/projects/5):
 
 ### Opção 1: Manual via Interface Web (Recomendado)
+
 1. Acesse o projeto
 2. Click em "Add item" ou "New issue"
 3. Copie e cole cada título e descrição das tarefas abaixo
 
 ### Opção 2: GitHub CLI
+
 ```bash
 # Após instalar gh e fazer login
 gh issue create --title "Título da tarefa" --body "Descrição" --label "frontend,rf01"
