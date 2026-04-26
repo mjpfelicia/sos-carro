@@ -1,3 +1,5 @@
-```
-# Documentation files already in version control, no build artifacts or dependencies detected
-```
+node_modules/
+dist/
+build/
+coverage/
+*.log
