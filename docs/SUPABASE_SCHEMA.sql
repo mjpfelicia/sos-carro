@@ -18,40 +18,56 @@ CREATE EXTENSION IF NOT EXISTS "postgis"; -- Para geolocalização (opcional)
 -- =====================================================
 
 -- Status do usuário
-CREATE TYPE user_status AS ENUM ('active', 'inactive', 'suspended', 'pending_verification');
+DO $$ BEGIN
+  CREATE TYPE user_status AS ENUM ('active', 'inactive', 'suspended', 'pending_verification');
+EXCEPTION
+  WHEN duplicate_object THEN null;
+END $$;
 
 -- Tipo de usuário
-CREATE TYPE user_type AS ENUM ('customer', 'provider', 'admin');
+DO $$ BEGIN
+  CREATE TYPE user_type AS ENUM ('customer', 'provider', 'admin');
+EXCEPTION
+  WHEN duplicate_object THEN null;
+END $$;
 
 -- Status do booking
-CREATE TYPE booking_status AS ENUM (
-  'pending',
-  'confirmed',
-  'in_progress',
-  'completed',
-  'cancelled',
-  'no_show'
-);
+DO $$ BEGIN
+  CREATE TYPE booking_status AS ENUM (
+    'pending',
+    'confirmed',
+    'in_progress',
+    'completed',
+    'cancelled',
+    'no_show'
+  );
+EXCEPTION
+  WHEN duplicate_object THEN null;
+END $$;
 
 -- Categoria de serviço
-CREATE TYPE service_category AS ENUM (
-  'mecanica',
-  'eletrica',
-  'guincho',
-  'pneus',
-  'funilaria',
-  'vidracaria',
-  'chaveiro',
-  'lavagem',
-  'outros'
-);
+DO $$ BEGIN
+  CREATE TYPE service_category AS ENUM (
+    'mecanica',
+    'eletrica',
+    'guincho',
+    'pneus',
+    'funilaria',
+    'vidracaria',
+    'chaveiro',
+    'lavagem',
+    'outros'
+  );
+EXCEPTION
+  WHEN duplicate_object THEN null;
+END $$;
 
 -- =====================================================
 -- 3. TABELAS PRINCIPAIS
 -- =====================================================
 
 -- 3.1. PERFIS DE USUÁRIOS (extends auth.users)
-CREATE TABLE profiles (
+CREATE TABLE IF NOT EXISTS profiles (
   id UUID PRIMARY KEY REFERENCES auth.users(id) ON DELETE CASCADE,
   email TEXT NOT NULL UNIQUE,
   full_name TEXT NOT NULL,
@@ -68,12 +84,12 @@ CREATE TABLE profiles (
 );
 
 -- Index para busca rápida
-CREATE INDEX idx_profiles_email ON profiles(email);
-CREATE INDEX idx_profiles_user_type ON profiles(user_type);
-CREATE INDEX idx_profiles_status ON profiles(status);
+CREATE INDEX IF NOT EXISTS idx_profiles_email ON profiles(email);
+CREATE INDEX IF NOT EXISTS idx_profiles_user_type ON profiles(user_type);
+CREATE INDEX IF NOT EXISTS idx_profiles_status ON profiles(status);
 
 -- 3.2. PRESTADORES DE SERVIÇO
-CREATE TABLE providers (
+CREATE TABLE IF NOT EXISTS providers (
   id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
   user_id UUID NOT NULL UNIQUE REFERENCES profiles(id) ON DELETE CASCADE,
   
@@ -127,16 +143,16 @@ CREATE TABLE providers (
 );
 
 -- Indexes para performance
-CREATE INDEX idx_providers_category ON providers(category);
-CREATE INDEX idx_providers_city ON providers(city);
-CREATE INDEX idx_providers_state ON providers(state);
-CREATE INDEX idx_providers_rating ON providers(rating DESC);
-CREATE INDEX idx_providers_is_available ON providers(is_available);
-CREATE INDEX idx_providers_location ON providers(latitude, longitude);
-CREATE INDEX idx_providers_user_id ON providers(user_id);
+CREATE INDEX IF NOT EXISTS idx_providers_category ON providers(category);
+CREATE INDEX IF NOT EXISTS idx_providers_city ON providers(city);
+CREATE INDEX IF NOT EXISTS idx_providers_state ON providers(state);
+CREATE INDEX IF NOT EXISTS idx_providers_rating ON providers(rating DESC);
+CREATE INDEX IF NOT EXISTS idx_providers_is_available ON providers(is_available);
+CREATE INDEX IF NOT EXISTS idx_providers_location ON providers(latitude, longitude);
+CREATE INDEX IF NOT EXISTS idx_providers_user_id ON providers(user_id);
 
 -- 3.3. SERVIÇOS OFERECIDOS
-CREATE TABLE services (
+CREATE TABLE IF NOT EXISTS services (
   id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
   provider_id UUID NOT NULL REFERENCES providers(id) ON DELETE CASCADE,
   
@@ -160,12 +176,12 @@ CREATE TABLE services (
   updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
 
-CREATE INDEX idx_services_provider_id ON services(provider_id);
-CREATE INDEX idx_services_category ON services(category);
-CREATE INDEX idx_services_price ON services(price);
+CREATE INDEX IF NOT EXISTS idx_services_provider_id ON services(provider_id);
+CREATE INDEX IF NOT EXISTS idx_services_category ON services(category);
+CREATE INDEX IF NOT EXISTS idx_services_price ON services(price);
 
 -- 3.4. DISPONIBILIDADE DO PRESTADOR
-CREATE TABLE availability (
+CREATE TABLE IF NOT EXISTS availability (
   id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
   provider_id UUID NOT NULL REFERENCES providers(id) ON DELETE CASCADE,
   
@@ -179,11 +195,11 @@ CREATE TABLE availability (
   updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
 
-CREATE INDEX idx_availability_provider_id ON availability(provider_id);
-CREATE INDEX idx_availability_day ON availability(day_of_week);
+CREATE INDEX IF NOT EXISTS idx_availability_provider_id ON availability(provider_id);
+CREATE INDEX IF NOT EXISTS idx_availability_day ON availability(day_of_week);
 
 -- 3.5. BOOKINGS (RESERVAS/SOLICITAÇÕES)
-CREATE TABLE bookings (
+CREATE TABLE IF NOT EXISTS bookings (
   id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
   
   -- Relacionamentos
@@ -234,14 +250,14 @@ CREATE TABLE bookings (
 );
 
 -- Indexes críticos
-CREATE INDEX idx_bookings_customer_id ON bookings(customer_id);
-CREATE INDEX idx_bookings_provider_id ON bookings(provider_id);
-CREATE INDEX idx_bookings_status ON bookings(status);
-CREATE INDEX idx_bookings_scheduled_at ON bookings(scheduled_at);
-CREATE INDEX idx_bookings_created_at ON bookings(created_at DESC);
+CREATE INDEX IF NOT EXISTS idx_bookings_customer_id ON bookings(customer_id);
+CREATE INDEX IF NOT EXISTS idx_bookings_provider_id ON bookings(provider_id);
+CREATE INDEX IF NOT EXISTS idx_bookings_status ON bookings(status);
+CREATE INDEX IF NOT EXISTS idx_bookings_scheduled_at ON bookings(scheduled_at);
+CREATE INDEX IF NOT EXISTS idx_bookings_created_at ON bookings(created_at DESC);
 
 -- 3.6. AVALIAÇÕES E REVIEWS
-CREATE TABLE reviews (
+CREATE TABLE IF NOT EXISTS reviews (
   id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
   
   -- Relacionamentos
@@ -274,14 +290,14 @@ CREATE TABLE reviews (
   updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
 
-CREATE INDEX idx_reviews_provider_id ON reviews(reviewed_provider_id);
-CREATE INDEX idx_reviews_reviewer_id ON reviews(reviewer_id);
-CREATE INDEX idx_reviews_booking_id ON reviews(booking_id);
-CREATE INDEX idx_reviews_rating ON reviews(rating);
-CREATE INDEX idx_reviews_created_at ON reviews(created_at DESC);
+CREATE INDEX IF NOT EXISTS idx_reviews_provider_id ON reviews(reviewed_provider_id);
+CREATE INDEX IF NOT EXISTS idx_reviews_reviewer_id ON reviews(reviewer_id);
+CREATE INDEX IF NOT EXISTS idx_reviews_booking_id ON reviews(booking_id);
+CREATE INDEX IF NOT EXISTS idx_reviews_rating ON reviews(rating);
+CREATE INDEX IF NOT EXISTS idx_reviews_created_at ON reviews(created_at DESC);
 
 -- 3.7. FOTOS DOS PRESTADORES
-CREATE TABLE provider_photos (
+CREATE TABLE IF NOT EXISTS provider_photos (
   id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
   provider_id UUID NOT NULL REFERENCES providers(id) ON DELETE CASCADE,
   
@@ -292,11 +308,11 @@ CREATE TABLE provider_photos (
   created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
 
-CREATE INDEX idx_provider_photos_provider_id ON provider_photos(provider_id);
-CREATE INDEX idx_provider_photos_is_primary ON provider_photos(is_primary);
+CREATE INDEX IF NOT EXISTS idx_provider_photos_provider_id ON provider_photos(provider_id);
+CREATE INDEX IF NOT EXISTS idx_provider_photos_is_primary ON provider_photos(is_primary);
 
 -- 3.8. NOTIFICAÇÕES
-CREATE TABLE notifications (
+CREATE TABLE IF NOT EXISTS notifications (
   id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
   user_id UUID NOT NULL REFERENCES profiles(id) ON DELETE CASCADE,
   
@@ -316,9 +332,9 @@ CREATE TABLE notifications (
   created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
 
-CREATE INDEX idx_notifications_user_id ON notifications(user_id);
-CREATE INDEX idx_notifications_is_read ON notifications(is_read);
-CREATE INDEX idx_notifications_created_at ON notifications(created_at DESC);
+CREATE INDEX IF NOT EXISTS idx_notifications_user_id ON notifications(user_id);
+CREATE INDEX IF NOT EXISTS idx_notifications_is_read ON notifications(is_read);
+CREATE INDEX IF NOT EXISTS idx_notifications_created_at ON notifications(created_at DESC);
 
 -- =====================================================
 -- 4. TRIGGERS E FUNÇÕES
@@ -334,26 +350,32 @@ END;
 $$ LANGUAGE plpgsql;
 
 -- Aplicar trigger em todas as tabelas com updated_at
+DROP TRIGGER IF EXISTS update_profiles_updated_at ON profiles;
 CREATE TRIGGER update_profiles_updated_at
   BEFORE UPDATE ON profiles
   FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
 
+DROP TRIGGER IF EXISTS update_providers_updated_at ON providers;
 CREATE TRIGGER update_providers_updated_at
   BEFORE UPDATE ON providers
   FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
 
+DROP TRIGGER IF EXISTS update_services_updated_at ON services;
 CREATE TRIGGER update_services_updated_at
   BEFORE UPDATE ON services
   FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
 
+DROP TRIGGER IF EXISTS update_availability_updated_at ON availability;
 CREATE TRIGGER update_availability_updated_at
   BEFORE UPDATE ON availability
   FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
 
+DROP TRIGGER IF EXISTS update_bookings_updated_at ON bookings;
 CREATE TRIGGER update_bookings_updated_at
   BEFORE UPDATE ON bookings
   FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
 
+DROP TRIGGER IF EXISTS update_reviews_updated_at ON reviews;
 CREATE TRIGGER update_reviews_updated_at
   BEFORE UPDATE ON reviews
   FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
@@ -373,6 +395,7 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql SECURITY DEFINER;
 
+DROP TRIGGER IF EXISTS on_auth_user_created ON auth.users;
 CREATE TRIGGER on_auth_user_created
   AFTER INSERT ON auth.users
   FOR EACH ROW EXECUTE FUNCTION create_profile_for_new_user();
@@ -441,14 +464,17 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
+DROP TRIGGER IF EXISTS after_review_insert ON reviews;
 CREATE TRIGGER after_review_insert
   AFTER INSERT ON reviews
   FOR EACH ROW EXECUTE FUNCTION update_provider_rating();
 
+DROP TRIGGER IF EXISTS after_review_update ON reviews;
 CREATE TRIGGER after_review_update
   AFTER UPDATE ON reviews
   FOR EACH ROW EXECUTE FUNCTION update_provider_rating();
 
+DROP TRIGGER IF EXISTS after_review_delete ON reviews;
 CREATE TRIGGER after_review_delete
   AFTER DELETE ON reviews
   FOR EACH ROW EXECUTE FUNCTION update_provider_rating();
@@ -466,6 +492,7 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
+DROP TRIGGER IF EXISTS after_booking_completed ON bookings;
 CREATE TRIGGER after_booking_completed
   AFTER UPDATE ON bookings
   FOR EACH ROW EXECUTE FUNCTION increment_provider_bookings();
@@ -485,32 +512,40 @@ ALTER TABLE provider_photos ENABLE ROW LEVEL SECURITY;
 ALTER TABLE notifications ENABLE ROW LEVEL SECURITY;
 
 -- 5.1. Políticas para PROFILES
+DROP POLICY IF EXISTS "Users can view their own profile" ON profiles;
+DROP POLICY IF EXISTS "Users can view their own profile" ON profiles;
 CREATE POLICY "Users can view their own profile"
   ON profiles FOR SELECT
   USING (auth.uid() = id);
 
+DROP POLICY IF EXISTS "Users can update their own profile" ON profiles;
 CREATE POLICY "Users can update their own profile"
   ON profiles FOR UPDATE
   USING (auth.uid() = id);
 
+DROP POLICY IF EXISTS "Public can view basic provider profiles" ON profiles;
 CREATE POLICY "Public can view basic provider profiles"
   ON profiles FOR SELECT
   USING (user_type = 'provider' AND status = 'active');
 
 -- 5.2. Políticas para PROVIDERS
+DROP POLICY IF EXISTS "Anyone can view active providers" ON providers;
 CREATE POLICY "Anyone can view active providers"
   ON providers FOR SELECT
   USING (is_active = true);
 
+DROP POLICY IF EXISTS "Users can create their own provider profile" ON providers;
 CREATE POLICY "Users can create their own provider profile"
   ON providers FOR INSERT
   WITH CHECK (auth.uid() = user_id);
 
+DROP POLICY IF EXISTS "Providers can update their own profile" ON providers;
 CREATE POLICY "Providers can update their own profile"
   ON providers FOR UPDATE
   USING (auth.uid() = user_id);
 
 -- 5.3. Políticas para SERVICES
+DROP POLICY IF EXISTS "Anyone can view services from active providers" ON services;
 CREATE POLICY "Anyone can view services from active providers"
   ON services FOR SELECT
   USING (
@@ -521,6 +556,7 @@ CREATE POLICY "Anyone can view services from active providers"
     )
   );
 
+DROP POLICY IF EXISTS "Providers can manage their own services" ON services;
 CREATE POLICY "Providers can manage their own services"
   ON services FOR ALL
   USING (
@@ -532,10 +568,12 @@ CREATE POLICY "Providers can manage their own services"
   );
 
 -- 5.4. Políticas para AVAILABILITY
+DROP POLICY IF EXISTS "Anyone can view availability" ON availability;
 CREATE POLICY "Anyone can view availability"
   ON availability FOR SELECT
   USING (true);
 
+DROP POLICY IF EXISTS "Providers can manage their own availability" ON availability;
 CREATE POLICY "Providers can manage their own availability"
   ON availability FOR ALL
   USING (
@@ -547,24 +585,29 @@ CREATE POLICY "Providers can manage their own availability"
   );
 
 -- 5.5. Políticas para BOOKINGS
+DROP POLICY IF EXISTS "Customers can view their own bookings" ON bookings;
 CREATE POLICY "Customers can view their own bookings"
   ON bookings FOR SELECT
   USING (customer_id = auth.uid());
 
+DROP POLICY IF EXISTS "Providers can view bookings for their services" ON bookings;
 CREATE POLICY "Providers can view bookings for their services"
   ON bookings FOR SELECT
   USING (provider_id IN (
     SELECT id FROM providers WHERE user_id = auth.uid()
   ));
 
+DROP POLICY IF EXISTS "Customers can create bookings" ON bookings;
 CREATE POLICY "Customers can create bookings"
   ON bookings FOR INSERT
   WITH CHECK (customer_id = auth.uid());
 
+DROP POLICY IF EXISTS "Customers can update their own bookings" ON bookings;
 CREATE POLICY "Customers can update their own bookings"
   ON bookings FOR UPDATE
   USING (customer_id = auth.uid());
 
+DROP POLICY IF EXISTS "Providers can update bookings they provide" ON bookings;
 CREATE POLICY "Providers can update bookings they provide"
   ON bookings FOR UPDATE
   USING (provider_id IN (
@@ -572,10 +615,12 @@ CREATE POLICY "Providers can update bookings they provide"
   ));
 
 -- 5.6. Políticas para REVIEWS
+DROP POLICY IF EXISTS "Anyone can view visible reviews" ON reviews;
 CREATE POLICY "Anyone can view visible reviews"
   ON reviews FOR SELECT
   USING (is_visible = true);
 
+DROP POLICY IF EXISTS "Customers can create reviews for their bookings" ON reviews;
 CREATE POLICY "Customers can create reviews for their bookings"
   ON reviews FOR INSERT
   WITH CHECK (
@@ -589,10 +634,12 @@ CREATE POLICY "Customers can create reviews for their bookings"
   );
 
 -- 5.7. Políticas para PROVIDER_PHOTOS
+DROP POLICY IF EXISTS "Anyone can view provider photos" ON provider_photos;
 CREATE POLICY "Anyone can view provider photos"
   ON provider_photos FOR SELECT
   USING (true);
 
+DROP POLICY IF EXISTS "Providers can manage their own photos" ON provider_photos;
 CREATE POLICY "Providers can manage their own photos"
   ON provider_photos FOR ALL
   USING (
@@ -604,10 +651,12 @@ CREATE POLICY "Providers can manage their own photos"
   );
 
 -- 5.8. Políticas para NOTIFICATIONS
+DROP POLICY IF EXISTS "Users can view their own notifications" ON notifications;
 CREATE POLICY "Users can view their own notifications"
   ON notifications FOR SELECT
   USING (user_id = auth.uid());
 
+DROP POLICY IF EXISTS "Users can update their own notifications" ON notifications;
 CREATE POLICY "Users can update their own notifications"
   ON notifications FOR UPDATE
   USING (user_id = auth.uid());
@@ -617,6 +666,7 @@ CREATE POLICY "Users can update their own notifications"
 -- =====================================================
 
 -- View para listagem de prestadores com informações consolidadas
+DROP VIEW IF EXISTS provider_listings;
 CREATE VIEW provider_listings AS
 SELECT 
   p.id,
@@ -653,6 +703,7 @@ JOIN profiles pr ON p.user_id = pr.id
 WHERE p.is_active = true;
 
 -- View para dashboard do prestador
+DROP VIEW IF EXISTS provider_dashboard;
 CREATE VIEW provider_dashboard AS
 SELECT 
   p.id as provider_id,
