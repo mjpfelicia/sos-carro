@@ -1,5 +1,2 @@
-(docs/SUPABASE_SCHEMA.sql is a source/config file, and there are no build artifacts, dependencies, or temp files in the changes)
-
-```sql
-
-```
+node_modules
+.env
