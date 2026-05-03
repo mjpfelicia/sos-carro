@@ -1,4 +1,3 @@
-# Environment variables
 .env
 
 # Dependencies
@@ -72,3 +71,4 @@ htmlcov/
 *.tar.bz2
 *.tar.xz
 *.tar.zst
+(src/routes/entrar.tsx)
